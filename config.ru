@@ -2,7 +2,9 @@
 # Under Windows: rackup -I. -Ilib  (CTRL+C and restart on each change)
 
 Routes = {
-  "GET" => {}
+  "GET" => {
+    # path => block
+  }
 }
 
 class App
