@@ -10,7 +10,7 @@ class ApplicationTest < Test::Unit::TestCase
     assert_equal ["home", "index"], @app.route("/home/index")
     assert_equal ["home", "index"], @app.route("/")
     assert_equal ["users", "index"], @app.route("/users")
-    assert_equal ["users", "new"], @app.route("/users/new")
+    assert_equal ["users", "show"], @app.route("/users/show")
   end
 
   def test_load_controller_class
