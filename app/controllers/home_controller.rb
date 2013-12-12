@@ -3,7 +3,8 @@ class HomeController < ApplicationController
   after_action :footer
 
   def index
-    response.write "Hello from home controller!"
+    @message = "an instance variable"
+    render :index
   end
 
   def header
