@@ -5,25 +5,62 @@ module Filters
 
   module ClassMethods
     def before_action(method)
-      before_actions << method
-    end
-
-    def before_actions
-      @before_actions ||= []
+      around_action do |controller, action|
+        controller.send method
+        action.call
+      end
     end
     
     def after_action(method)
-      after_actions << method
+      around_action do |controller, action|
+        action.call
+        controller.send method
+      end
+    end
+   
+    # around_action :layout
+    #
+    # def layout
+    #   yield
+    # end
+    #
+    # around_action { |controller, action| action.call }
+    def around_action(method = nil, &block)
+      if block
+        around_actions << block
+      else
+        around_actions << proc { |controller, action| controller.send method, &action }
+      end
     end
 
-    def after_actions
-      @after_actions ||= []
+    def around_actions
+      @around_actions ||= []
     end
   end
 
   def process(action_name)
-    self.class.before_actions.each { |method| send(method) }
-    super
-    self.class.after_actions.each { |method| send(method) }
+    # around_action :one
+    # around_action :two
+
+    # def one
+    #   yield
+    # end
+    # def two
+    #   yield
+    # end
+    #
+    # action_proc = proc do
+    #   one do
+    #     two do
+    #       super
+    #     end
+    #   end
+    # end
+
+    self.class.around_actions.reverse.inject(proc { super }) do |action_proc, block|
+      proc { block.call(self, action_proc) }
+    end.call
   end
 end
+
+

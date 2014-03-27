@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  around_action :layout
   before_action :header
   after_action :footer
 
@@ -13,5 +14,11 @@ class HomeController < ApplicationController
 
   def footer
     response.write "<p>&copy; me</p>"
+  end
+
+  def layout
+    response.write "<html><body>"
+    yield
+    response.write "</body></html>"
   end
 end
