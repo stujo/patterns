@@ -38,6 +38,10 @@ class FiltersTestController < ApplicationController
 end
 
 class FiltersTest < Test::Unit::TestCase
+  def test_store
+    assert_equal [:before], FiltersTestController.before_actions
+  end
+
   def test_filters
     out = []
     FiltersTestController.new(out).process(:index)
