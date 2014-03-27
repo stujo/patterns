@@ -15,4 +15,8 @@ class RenderingTest < Test::Unit::TestCase
   def test_controller_name
     assert_equal "home", @controller.controller_name
   end
+
+  def test_render_to_string
+    assert_nil @controller.render_to_string("index")
+  end
 end
