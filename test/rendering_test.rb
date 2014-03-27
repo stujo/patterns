@@ -17,6 +17,6 @@ class RenderingTest < Test::Unit::TestCase
   end
 
   def test_render_to_string
-    assert_nil @controller.render_to_string("index")
+    assert_not_nil @controller.render_to_string("index")
   end
 end
